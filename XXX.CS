@@ -13,102 +13,49 @@ static int fun1(int[] arr)
     return maxSum;
 }
 
-public class class2
-{
-            private Dictionary<int, (int value, long timestamp)> data;
-            private int setAllValue;
-            private long setAllTime;
-            private long currentTime;
-            
-            public SetAll()
-            {
-                data = new Dictionary<int, (int, long)>();
-                setAllValue = 0;
-                setAllTime = 0;
-                currentTime = 0;
-            }
-            
-            public void Set(int key, int val)
-            {
-                currentTime++;
-                data[key] = (val, currentTime);
-            }
-            
-            public int Get(int key)
-            {
-                if (!data.ContainsKey(key))
-                {
-                    if (setAllTime > 0)
-                        return setAllValue;
-                    return;
-                }
-                
-                var (value, timestamp) = data[key];
-                
-                if (timestamp > setAllTime)
-                    return value;
-                
-                return setAllValue;
-            }
-            
-            public void SetAll(int val)
-            {
-                currentTime++;
-                setAllValue = val;
-                setAllTime = currentTime;
-            }
-        }            
-        
-using System;
-using System.Collections.Generic;
 
-public class LinkedListNode
-{
-    public int Value;
-    public LinkedListNode Next;
-    public LinkedListNode(int val) { Value = val; }
-}
 
-    public static int MinRemovals(LinkedListNode head)
+
+static int func3(int[] arr)
+{
+    if (arr == null || arr.Length <= 1)
+        return 0;
+
+    int n = arr.Length;
+
+    int[] tails = new int[n];
+    int length = 0; 
+
+    foreach (int num in arr)
     {
-        List<int> nums = new List<int>();
-        while (head != null)
-        {
-            nums.Add(head.Value);
-            head = head.Next;
-        }
+        int pos = Search(tails, 0, length, num);
 
-        if (nums.Count == 0) return 0;
+        tails[pos] = num;
 
-        List<int> tails = new List<int>();
-        
-        foreach (int x in nums)
-        {
-            int left = 0, right = tails.Count;
-            
-            while (left < right)
-            {
-                int mid = left + (right - left) / 2;
-                if (tails[mid] <= x)
-                {
-                    left = mid + 1;
-                }
-                else
-                {
-                    right = mid;
-                }
-            }
-            
-            if (left == tails.Count)
-                tails.Add(x);
-            else
-                tails[left] = x;
-        }
-        
-        return nums.Count - tails.Count;
+        if (pos == length)
+            length++;
     }
 
+    return n - length;
+}
 
+static int Search(int[] arr, int start, int end, int val)
+{
+    int left = start;
+    int right = end;
+
+    while (left < right)
+    {
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] <= val)
+            left = mid + 1;
+        else
+            right = mid;
+    }
+
+    return left;
+}
 static int func4(int[] arr, int x)
 {
     int cnt = 0, sum = 0;
@@ -134,3 +81,48 @@ static int func5(int s, int t, int n)
 }
 
 
+public class class2
+{
+    private Dictionary<int, (int value, long timestamp)> data;
+    private int setAllValue;
+    private long setAllTime;
+    private long currentTime;
+
+    public class2()
+    {
+        data = new Dictionary<int, (int, long)>();
+        setAllValue = 0;
+        setAllTime = 0;
+        currentTime = 0;
+    }
+
+    public void Set(int key, int val)
+    {
+        currentTime++;
+        data[key] = (val, currentTime);
+    }
+
+    public int? Get(int key)
+    {
+        if (!data.ContainsKey(key))
+        {
+            if (setAllTime > 0)
+                return setAllValue;
+            return null;
+        }
+
+        var (value, timestamp) = data[key];
+
+        if (timestamp > setAllTime)
+            return value;
+
+        return setAllValue;
+    }
+
+    public void SetAll(int val)
+    {
+        currentTime++;
+        setAllValue = val;
+        setAllTime = currentTime;
+    }
+}
