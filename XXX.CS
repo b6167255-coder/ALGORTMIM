@@ -16,6 +16,8 @@ static int fun1(int[] arr)
 
 
 
+
+
 static int func3(int[] arr)
 {
     if (arr == null || arr.Length <= 1)
